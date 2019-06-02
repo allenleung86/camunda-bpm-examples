@@ -54,7 +54,9 @@
         <module>usertask/task-form-external-jsf</module>
         <module>dmn-engine/dmn-engine-java-main-method</module>
         <module>authentication/basic</module>
+        <module>allen/countersign/parallel</module>
         <module>allen/countersign/sequential</module>
+        <module>allen/countersign/parallel</module>
         <module>allen/servicetask/rest-service</module>
     </modules>
 

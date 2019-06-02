@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0fm78qt" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.1.0">
+  <bpmn:process id="countersign_parallel_task_allen" name="多实例任务并行(allen)" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_0t5tsls</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0t5tsls" sourceRef="StartEvent_1" targetRef="usertask1" />
+    <bpmn:sequenceFlow id="SequenceFlow_02lza9x" sourceRef="usertask1" targetRef="endevent1" />
+    <bpmn:endEvent id="endevent1">
+      <bpmn:incoming>SequenceFlow_02lza9x</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="usertask1" name="多实例任务（并行）" camunda:candidateUsers="shareniu1,shareniu2,shareniu3,shareniu4">
+      <bpmn:incoming>SequenceFlow_0t5tsls</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_02lza9x</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics>
+        <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">6</bpmn:loopCardinality>
+      </bpmn:multiInstanceLoopCharacteristics>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="countersign_parallel_task_allen">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="103" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0t5tsls_di" bpmnElement="SequenceFlow_0t5tsls">
+        <di:waypoint x="215" y="121" />
+        <di:waypoint x="353" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_02lza9x_di" bpmnElement="SequenceFlow_02lza9x">
+        <di:waypoint x="453" y="121" />
+        <di:waypoint x="594" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0vl95tf_di" bpmnElement="endevent1">
+        <dc:Bounds x="594" y="103" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0js960q_di" bpmnElement="usertask1">
+        <dc:Bounds x="353" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
