@@ -1,4 +1,4 @@
-# REST Service Task
+# REST Service Task 根据自己的实际情况做service task,带有payload的例子
 
 This quickstart demonstrates how to use the built-in REST HTTP connector for invoking REST services in camunda BPM. The example is *classless*, relying entirely on scripting and expression language. It makes use of the camunda Connect and the camunda Spin extensions.
 
