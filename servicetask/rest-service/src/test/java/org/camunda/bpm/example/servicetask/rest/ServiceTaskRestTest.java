@@ -16,13 +16,9 @@
  */
 package org.camunda.bpm.example.servicetask.rest;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
@@ -30,7 +26,14 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+
 /**
+ * 测试传入的日期是否为节假日
+ *
  * @author Stefan Hentschel.
  */
 public class ServiceTaskRestTest {
@@ -46,9 +49,10 @@ public class ServiceTaskRestTest {
     RuntimeService runtimeService = processEngineRule.getRuntimeService();
     TaskService taskService = processEngineRule.getTaskService();
 
-    runtimeService.startProcessInstanceByKey("holiday", variables);
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("holiday", variables);
+    String processInstanceId = processInstance.getProcessInstanceId();
 
-    Task task = taskService.createTaskQuery().singleResult();
+    Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
     Assert.assertNotNull(task);
     assertEquals("Pack for holiday", task.getName());
 
@@ -65,9 +69,11 @@ public class ServiceTaskRestTest {
     RuntimeService runtimeService = processEngineRule.getRuntimeService();
     TaskService taskService = processEngineRule.getTaskService();
 
-    runtimeService.startProcessInstanceByKey("holiday", variables);
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("holiday", variables);
 
-    Task task = taskService.createTaskQuery().singleResult();
+    String processInstanceId = processInstance.getProcessInstanceId();
+
+    Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
     Assert.assertNotNull(task);
     assertEquals("Pack for work", task.getName());
 

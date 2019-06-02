@@ -16,17 +16,18 @@
  */
 package org.camunda.bpm.example.servicetask.soap;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 /**
  * @author Daniel Meyer
  *
@@ -46,9 +47,10 @@ public class ServiceTaskSoapTest {
     RuntimeService runtimeService = processEngineRule.getRuntimeService();
     TaskService taskService = processEngineRule.getTaskService();
 
-    runtimeService.startProcessInstanceByKey("weatherForecast", variables);
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("weatherForecast", variables);
+    String processInstanceId = processInstance.getProcessInstanceId();
 
-    Task task = taskService.createTaskQuery().singleResult();
+    Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
     Assert.assertNotNull(task);
 
     int temperature = Integer.parseInt( taskService.getVariable(task.getId(), "temperature").toString() );

@@ -16,13 +16,13 @@
  */
 package org.camunda.quickstart.servicetask.invocation;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.camunda.bpm.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 import org.camunda.bpm.engine.impl.pvm.delegate.ActivityExecution;
 import org.camunda.bpm.engine.impl.pvm.delegate.SignallableActivityBehavior;
 import org.camunda.quickstart.servicetask.invocation.MockMessageQueue.Message;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>This is a simple implementation of the {@link SignallableActivityBehavior}
@@ -61,22 +61,24 @@ public class AsynchronousServiceTask extends AbstractBpmnActivityBehavior {
 
   public static final String EXECUTION_ID = "executionId";
   
+	@Override
 	public void execute(final ActivityExecution execution) throws Exception {
-	  
-	  // Build the payload for the message: 
+
+	  // Build the payload for the message:
 	  Map<String, Object> payload = new HashMap<String, Object>(execution.getVariables());
 	  // Add the execution id to the payload:
 	  payload.put(EXECUTION_ID, execution.getId());
-	  
-	  // Publish a message to the outbound message queue. This method returns after the message has 
-	  // been put into the queue. The actual service implementation (Business Logic) will not yet 
+
+	  // Publish a message to the outbound message queue. This method returns after the message has
+	  // been put into the queue. The actual service implementation (Business Logic) will not yet
 	  // be invoked:
 	  MockMessageQueue.INSTANCE.send(new Message(payload));
-	  
+
 	}
-			
+
+	@Override
 	public void signal(ActivityExecution execution, String signalName, Object signalData) throws Exception {
-	  
+
 	  // leave the service task activity:
 	  leave(execution);
 	}

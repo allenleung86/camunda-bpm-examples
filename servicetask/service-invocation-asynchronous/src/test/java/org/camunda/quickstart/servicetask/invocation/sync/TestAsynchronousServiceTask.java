@@ -48,10 +48,18 @@ public class TestAsynchronousServiceTask {
   @Rule
   public ProcessEngineRule processEngineRule = new ProcessEngineRule();
 
+  /**
+   * 测试服务调用成功情况
+   *
+   * @param
+   * @return void
+   * @author liangzhaolin
+   * @date 2019/6/1 21:52
+   */
   @Test
   @Deployment(resources = { "asynchronousServiceInvocation.bpmn" })
   public void testServiceInvocationSuccessful() {
-
+/
     final ProcessEngine processEngine = processEngineRule.getProcessEngine();
     final RuntimeService runtimeService = processEngineRule.getRuntimeService();
     final TaskService taskService = processEngineRule.getTaskService();
@@ -69,14 +77,14 @@ public class TestAsynchronousServiceTask {
       .singleResult();
     assertNotNull(waitStateBefore);
 
-    // Complete the first task. This triggers causes the Service task to be executed. 
-    // After the method call returns, the message will be put into the queue and 
+    // Complete the first task. This triggers causes the Service task to be executed.
+    // After the method call returns, the message will be put into the queue and
     // the process instance is waiting in the service task activity.
     taskService.complete(waitStateBefore.getId());
 
     // the process instance is now waiting in the service task activity:
     assertEquals(Arrays.asList("serviceTaskActivity"), runtimeService.getActiveActivityIds(processInstance.getId()));
-    
+
     // the message is present in the Queue:
     Message message = MockMessageQueue.INSTANCE.getNextMessage();
     assertNotNull(message);
@@ -85,20 +93,29 @@ public class TestAsynchronousServiceTask {
     // Next, trigger the business logic. This will send the callback to the process engine.
     // When this method call returns, the process instance will be waiting in the next waitstate.
     BusinessLogic.INSTANCE.invoke(message, processEngine);
-    
+
     // the process instance is now waiting in the second wait state (user task):
     Task waitStateAfter = taskService.createTaskQuery()
       .taskDefinitionKey("waitStateAfter")
       .processInstanceId(processInstance.getId())
       .singleResult();
     assertNotNull(waitStateAfter);
-        
+
     // check for variable set by the service task:
     variables = runtimeService.getVariables(processInstance.getId());
     assertEquals(BusinessLogic.PRICE, variables.get(BusinessLogic.PRICE_VAR_NAME));
 
+    System.out.println("the end");
   }
 
+  /**
+   * 测试服务调用失败情况
+   *
+   * @param
+   * @return void
+   * @author liangzhaolin
+   * @date 2019/6/1 21:51
+   */
   @Test
   @Deployment(resources = { "asynchronousServiceInvocation.bpmn" })
   public void testServiceInvocationFailure() {

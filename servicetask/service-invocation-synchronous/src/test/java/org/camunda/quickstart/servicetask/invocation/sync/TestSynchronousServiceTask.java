@@ -79,6 +79,7 @@ public class TestSynchronousServiceTask {
     variables = runtimeService.getVariables(processInstance.getId());
     assertEquals(SynchronousServiceTask.PRICE, variables.get(SynchronousServiceTask.PRICE_VAR_NAME));
 
+    System.out.println("the end");
   }
 
   @Test

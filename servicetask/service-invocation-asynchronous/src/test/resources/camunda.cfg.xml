@@ -1,9 +1,17 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <bean id="processEngineConfiguration" class="org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
+    <bean id="processEngineConfiguration" class="org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/camunda?useUnicode=true&amp;characterEncoding=UTF-8&amp;noAccessToProcedureBodies=true&amp;autoReconnect=true&amp;serverTimezone=Asia/Shanghai"/>
+        <property name="jdbcDriver" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="jdbcUsername" value="root"/>
+        <property name="jdbcPassword" value="root"/>
 
-  </bean>
+        <!-- Database configurations -->
+        <property name="databaseSchemaUpdate" value="true" />
+
+        <property name="historyLevel" value="HISTORY_LEVEL_FULL" />
+    </bean>
 
 </beans>

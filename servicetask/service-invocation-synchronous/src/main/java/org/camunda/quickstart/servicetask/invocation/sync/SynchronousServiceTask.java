@@ -40,14 +40,12 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 public class SynchronousServiceTask implements JavaDelegate {
 	
 	// some constants provided to the unit test 
-	
 	public static final String SHOULD_FAIL_VAR_NAME = "shouldFail";
 	public static final String PRICE_VAR_NAME = "price";
 	public static final float PRICE = 199.00f;
 
 	public void execute(DelegateExecution execution) throws Exception {
-		
-		// Here you could either add the business logic of the service task 
+		// Here you could either add the business logic of the service task
 		// or delegate to the actual business logic implementation provided 
 		// by a different class. 
 		
@@ -60,13 +58,8 @@ public class SynchronousServiceTask implements JavaDelegate {
 		
 		if(((Boolean)execution.getVariable(SHOULD_FAIL_VAR_NAME)) == true) {
 			throw new RuntimeException("Service invocation failure!");
-			
 		} else {
 			execution.setVariable(PRICE_VAR_NAME, PRICE);
-			
 		}
-		
-		
 	}
-
 }
