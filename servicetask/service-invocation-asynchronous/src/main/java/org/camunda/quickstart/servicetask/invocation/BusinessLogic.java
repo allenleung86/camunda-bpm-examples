@@ -16,11 +16,11 @@
  */
 package org.camunda.quickstart.servicetask.invocation;
 
-import java.util.Collections;
-import java.util.Map;
-
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.quickstart.servicetask.invocation.MockMessageQueue.Message;
+
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * This class represents the actual business logic invoked by the service task.
@@ -53,7 +53,7 @@ public class BusinessLogic {
       // using a message queue.
       Map<String, Object> callbackPayload = Collections.<String,Object>singletonMap(PRICE_VAR_NAME, PRICE);
       processEngine.getRuntimeService().signal(executionId, callbackPayload);
-      
+
     }
   }
 
