@@ -53,7 +53,7 @@ public class MultiTenancySharedProcessDefinitionTest {
   }
 
   /**
-   * 为共享流程定义的实例提供租户id
+   * 为共享流程定义(即开头没有指定租户)的实例提供租户
    *
    * <p>You will learn how to provide tenant ids for instances of shared process definitions 您将了解如何为共享流程定义的实例提供租户id</p>
    * <p>To verify the behavior you have to:</p>
@@ -90,17 +90,17 @@ public class MultiTenancySharedProcessDefinitionTest {
 
     // check that the process instance got the tenant id from the custom tenant id provider
     ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processDefinitionKey("mainProcess").processInstanceId(processInstanceId).singleResult();
-//    assertThat(processInstance.getTenantId(), is("tenant1"));
+    assertThat(processInstance.getTenantId(), is("tenant1"));
 
     // and started the default sub-process
     Task task = taskService.createTaskQuery().processDefinitionKey("subProcess").singleResult();
-//    assertThat(task.getName(), is("task in default subprocess"));
+    assertThat(task.getName(), is("task in default subprocess"));
   }
 
   /**
-   * 测试覆盖共享流程定义的情况
+   * 使用指定租户覆盖缺省流程定义
    *
-   * <p>You will learn how to override default process definitions with tenant specific once 您将了解如何使用特定于租户的方法一次覆盖缺省流程定义</p>
+   * <p>You will learn how to override default process definitions with tenant specific once 您将了解如何使用指定租户覆盖缺省流程定义</p>
    * <p>To verify the behavior you have to </p>
    * <p>deploy the default process definitions without a tenant id 部署没有租户id的默认流程定义</p>
    * <p>deploy the sub-process definition for tenant ('tenant2') 为租户tenant2部署子流程定义</p>
