@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="_VtQR8L0REeSNuv6S7H6XsA" targetNamespace="http://camunda.org/examples" exporter="Camunda Modeler" exporterVersion="3.1.0" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="testProcess" isExecutable="true">
+    <bpmn2:startEvent id="StartEvent_1">
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:scriptTask id="ScriptTask_1" name="Extract Price" scriptFormat="javascript" camunda:resultVariable="item_price">
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_1qo21tl</bpmn2:outgoing>
+      <bpmn2:script>var carJson = execution.getVariableTyped("car").getValueSerialized();
+var price = S(carJson ).prop("price").numberValue();
+execution.setVariable("price", price);
+price</bpmn2:script>
+    </bpmn2:scriptTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" name="" sourceRef="StartEvent_1" targetRef="ScriptTask_1" />
+    <bpmn2:userTask id="UserTask_1" name="VIP会员">
+      <bpmn2:incoming>SequenceFlow_1yxotkb</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_3</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:endEvent id="EndEvent_1">
+      <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_1r5cp92</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_3" name="" sourceRef="UserTask_1" targetRef="EndEvent_1" />
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_1ov6ktf">
+      <bpmn2:incoming>SequenceFlow_1qo21tl</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_1yxotkb</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_0saiosp</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_1qo21tl" sourceRef="ScriptTask_1" targetRef="ExclusiveGateway_1ov6ktf" />
+    <bpmn2:sequenceFlow id="SequenceFlow_1yxotkb" name="价格大于等于1000" sourceRef="ExclusiveGateway_1ov6ktf" targetRef="UserTask_1">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${item_price&gt;=1000}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_0saiosp" name="价格小于1000" sourceRef="ExclusiveGateway_1ov6ktf" targetRef="Task_11sh2mh">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${item_price&lt;1000}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:userTask id="Task_11sh2mh" name="普通会员">
+      <bpmn2:incoming>SequenceFlow_0saiosp</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_1r5cp92</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_1r5cp92" sourceRef="Task_11sh2mh" targetRef="EndEvent_1" />
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="testProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_39" bpmnElement="StartEvent_1">
+        <dc:Bounds x="120" y="218" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_ScriptTask_2" bpmnElement="ScriptTask_1">
+        <dc:Bounds x="206" y="196" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="_BPMNShape_StartEvent_39" targetElement="_BPMNShape_ScriptTask_2">
+        <di:waypoint x="156" y="236" />
+        <di:waypoint x="206" y="236" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_UserTask_2" bpmnElement="UserTask_1">
+        <dc:Bounds x="502" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_EndEvent_102" bpmnElement="EndEvent_1">
+        <dc:Bounds x="680" y="218" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_3" sourceElement="_BPMNShape_UserTask_2" targetElement="_BPMNShape_EndEvent_102">
+        <di:waypoint x="602" y="121" />
+        <di:waypoint x="641" y="121" />
+        <di:waypoint x="641" y="236" />
+        <di:waypoint x="680" y="236" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1ov6ktf_di" bpmnElement="ExclusiveGateway_1ov6ktf" isMarkerVisible="true">
+        <dc:Bounds x="396" y="211" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1qo21tl_di" bpmnElement="SequenceFlow_1qo21tl">
+        <di:waypoint x="306" y="236" />
+        <di:waypoint x="396" y="236" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1yxotkb_di" bpmnElement="SequenceFlow_1yxotkb">
+        <di:waypoint x="421" y="211" />
+        <di:waypoint x="421" y="121" />
+        <di:waypoint x="502" y="121" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="394" y="163" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0saiosp_di" bpmnElement="SequenceFlow_0saiosp">
+        <di:waypoint x="421" y="261" />
+        <di:waypoint x="421" y="312" />
+        <di:waypoint x="502" y="312" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="402" y="284" width="69" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_1lbnfcj_di" bpmnElement="Task_11sh2mh">
+        <dc:Bounds x="502" y="272" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1r5cp92_di" bpmnElement="SequenceFlow_1r5cp92">
+        <di:waypoint x="602" y="312" />
+        <di:waypoint x="641" y="312" />
+        <di:waypoint x="641" y="236" />
+        <di:waypoint x="680" y="236" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

@@ -20,8 +20,11 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.Variables;
+import org.camunda.bpm.engine.variable.value.ObjectValue;
 import org.camunda.bpm.engine.variable.value.SerializableValue;
+import org.camunda.bpm.engine.variable.value.builder.ObjectValueBuilder;
 import org.camunda.spin.DataFormats;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -33,29 +36,34 @@ public class JacksonConfiguratorTest {
   public ProcessEngineRule processEngineRule = new ProcessEngineRule();
 
   @Test
-  @Deployment(resources={"testProcess.bpmn"})
+  @Deployment(resources={"testProcessAllen.bpmn"})
+//  @Deployment(resources={"testProcess.bpmn"})
   public void shouldSerializeJsonCorrectly() {
     RuntimeService runtimeService = processEngineRule.getRuntimeService();
 
     Car car = new Car();
-    car.setPrice(new Money(1000));
-    // request that car is serialized as JSON when stored
-    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("testProcess",
-        Variables.createVariables().putValueTyped("car",
-            Variables
-              .objectValue(car)
-              .serializationDataFormat(DataFormats.JSON_DATAFORMAT_NAME)
-              .create()));
+    car.setPrice(new Money(999));
+//    car.setPrice(new Money(1000));
 
-    // access the serialized JSON value
-    SerializableValue serializedCarValue =
-        runtimeService.getVariableTyped(processInstance.getId(), "car");
+    ObjectValueBuilder objectValueBuilder = Variables.objectValue(car);
+    objectValueBuilder = objectValueBuilder.serializationDataFormat(DataFormats.JSON_DATAFORMAT_NAME);
+    ObjectValue objectValue = objectValueBuilder.create();
+
+    VariableMap carMap = Variables.createVariables().putValueTyped("car", objectValue);
+
+    // request that car is serialized as JSON when stored 请求在存储时将car序列化为JSON
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("testProcess", carMap);
+
+    // access the serialized JSON value 访问序列化的JSON值
+    SerializableValue serializedCarValue = runtimeService.getVariableTyped(processInstance.getId(), "car");
     String carJson = serializedCarValue.getValueSerialized();
-    Assert.assertEquals("{\"price\":1000}", carJson);
+    Assert.assertEquals("{\"price\":999}", carJson);
+//    Assert.assertEquals("{\"price\":1000}", carJson);
 
     // assert that the script task was able to extract the price property from the JSON object
     Number price = (Number) runtimeService.getVariable(processInstance.getId(), "price");
-    Assert.assertEquals(1000, price);
+    Assert.assertEquals(999, price);
+//    Assert.assertEquals(1000, price);
   }
 
 

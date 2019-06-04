@@ -6,16 +6,18 @@
 
   <bean id="processEngineConfiguration" class="org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
 
-    <property name="jdbcUrl" value="jdbc:h2:mem:camunda;DB_CLOSE_DELAY=1000" />
-    <property name="jdbcDriver" value="org.h2.Driver" />
-    <property name="jdbcUsername" value="sa" />
-    <property name="jdbcPassword" value="" />
+    <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/camunda?useUnicode=true&amp;characterEncoding=UTF-8&amp;noAccessToProcedureBodies=true&amp;autoReconnect=true&amp;serverTimezone=Asia/Shanghai"/>
+    <property name="jdbcDriver" value="com.mysql.cj.jdbc.Driver"/>
+    <property name="jdbcUsername" value="root"/>
+    <property name="jdbcPassword" value="root"/>
 
     <!-- Database configurations -->
     <property name="databaseSchemaUpdate" value="true" />
 
     <!-- job executor configurations -->
     <property name="jobExecutorActivate" value="false" />
+
+    <property name="historyLevel" value="HISTORY_LEVEL_FULL" />
 
     <!--<property name="idGenerator" ref="uuidGenerator" />-->
     
