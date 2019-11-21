@@ -9,11 +9,11 @@
     <bpmn:endEvent id="endevent1">
       <bpmn:incoming>SequenceFlow_02lza9x</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:userTask id="usertask1" name="多实例任务（串行）" camunda:candidateUsers="shareniu1,shareniu2,shareniu3,shareniu4">
+    <bpmn:userTask id="usertask1" name="多实例任务（串行）" camunda:candidateUsers="shareniu1,shareniu2,shareniu3">
       <bpmn:incoming>SequenceFlow_0t5tsls</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02lza9x</bpmn:outgoing>
       <bpmn:multiInstanceLoopCharacteristics isSequential="true">
-        <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">5</bpmn:loopCardinality>
+        <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">3</bpmn:loopCardinality>
       </bpmn:multiInstanceLoopCharacteristics>
     </bpmn:userTask>
   </bpmn:process>

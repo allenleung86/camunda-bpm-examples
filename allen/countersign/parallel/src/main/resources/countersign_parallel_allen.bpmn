@@ -13,7 +13,7 @@
       <bpmn:incoming>SequenceFlow_0t5tsls</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02lza9x</bpmn:outgoing>
       <bpmn:multiInstanceLoopCharacteristics>
-        <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">6</bpmn:loopCardinality>
+        <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">4</bpmn:loopCardinality>
       </bpmn:multiInstanceLoopCharacteristics>
     </bpmn:userTask>
   </bpmn:process>

@@ -5,7 +5,7 @@
       <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
       <bpmn2:messageEventDefinition id="MessageEventDefinition_1" messageRef="Message_1"/>
     </bpmn2:startEvent>
-    <bpmn2:userTask id="UserTask_1" name="Wait in Message Process">
+    <bpmn2:userTask id="UserTask_1" name="Wait databaseschemaupdatein Message Process">
       <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
     </bpmn2:userTask>

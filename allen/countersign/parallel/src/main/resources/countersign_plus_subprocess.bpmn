@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0fm78qt" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.1.0">
+  <bpmn:process id="countersign_plus_subprocess_id" name="countersign_plus_subprocess" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="start1">
+      <bpmn:outgoing>SequenceFlow_072rjps</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="usertaskone_id" name="usertaskone" camunda:assignee="aa">
+      <bpmn:incoming>SequenceFlow_072rjps</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0u48s8y</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:subProcess id="subprocess_id" name="subprocess_name">
+      <bpmn:incoming>SequenceFlow_1jcpan2</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0l4z8ky</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics>
+        <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">5</bpmn:loopCardinality>
+        <bpmn:completionCondition xsi:type="bpmn:tFormalExpression">${nrOfCompletedInstances/nrOfInstances&gt;=0.6 }</bpmn:completionCondition>
+      </bpmn:multiInstanceLoopCharacteristics>
+      <bpmn:sequenceFlow id="SequenceFlow_0tfu8rx" sourceRef="subtaskone_id" targetRef="subtasktwo_id" />
+      <bpmn:userTask id="subtaskone_id" name="subtaskone">
+        <bpmn:incoming>SequenceFlow_022gpxb</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_0tfu8rx</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:userTask id="subtasktwo_id" name="subtasktwo">
+        <bpmn:incoming>SequenceFlow_0tfu8rx</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_18yxj1p</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:startEvent id="subprocess_start_id" name="subprocess_start">
+        <bpmn:outgoing>SequenceFlow_022gpxb</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_022gpxb" sourceRef="subprocess_start_id" targetRef="subtaskone_id" />
+      <bpmn:sequenceFlow id="SequenceFlow_18yxj1p" sourceRef="subtasktwo_id" targetRef="subprocess_end_id" />
+      <bpmn:endEvent id="subprocess_end_id" name="subprocess_end">
+        <bpmn:incoming>SequenceFlow_18yxj1p</bpmn:incoming>
+      </bpmn:endEvent>
+    </bpmn:subProcess>
+    <bpmn:endEvent id="IntermediateThrowEvent_1448a3v" name="end">
+      <bpmn:incoming>SequenceFlow_1caivzk</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1caivzk" sourceRef="usertasktwo_id" targetRef="IntermediateThrowEvent_1448a3v" />
+    <bpmn:sequenceFlow id="SequenceFlow_0l4z8ky" sourceRef="subprocess_id" targetRef="usertasktwo_id" />
+    <bpmn:userTask id="usertasktwo_id" name="usertasktwo" camunda:assignee="bb">
+      <bpmn:incoming>SequenceFlow_0l4z8ky</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1caivzk</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1jcpan2" sourceRef="IntermediateThrowEvent_1u6uio1" targetRef="subprocess_id" />
+    <bpmn:sequenceFlow id="SequenceFlow_072rjps" sourceRef="StartEvent_1" targetRef="usertaskone_id" />
+    <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_1u6uio1" name="等待授权开始">
+      <bpmn:incoming>SequenceFlow_0u48s8y</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1jcpan2</bpmn:outgoing>
+      <bpmn:timerEventDefinition>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT30S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0u48s8y" sourceRef="usertaskone_id" targetRef="IntermediateThrowEvent_1u6uio1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="countersign_plus_subprocess_id">
+      <bpmndi:BPMNShape id="SubProcess_1y5uohc_di" bpmnElement="subprocess_id" isExpanded="true">
+        <dc:Bounds x="494" y="81" width="523" height="198" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="157" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="163" y="205" width="28" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_10t8e8v_di" bpmnElement="usertaskone_id">
+        <dc:Bounds x="247" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0tfu8rx_di" bpmnElement="SequenceFlow_0tfu8rx">
+        <di:waypoint x="728" y="181" />
+        <di:waypoint x="778" y="181" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0gmp53d_di" bpmnElement="subtaskone_id">
+        <dc:Bounds x="628" y="141" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1yxz8iw_di" bpmnElement="subtasktwo_id">
+        <dc:Bounds x="778" y="141" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1br8604_di" bpmnElement="subprocess_start_id">
+        <dc:Bounds x="538" y="163" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="514" y="206" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_022gpxb_di" bpmnElement="SequenceFlow_022gpxb">
+        <di:waypoint x="574" y="181" />
+        <di:waypoint x="628" y="181" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_18yxj1p_di" bpmnElement="SequenceFlow_18yxj1p">
+        <di:waypoint x="878" y="181" />
+        <di:waypoint x="932" y="181" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0350unq_di" bpmnElement="subprocess_end_id">
+        <dc:Bounds x="932" y="163" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="910" y="206" width="81" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0eilp99_di" bpmnElement="IntermediateThrowEvent_1448a3v">
+        <dc:Bounds x="1200" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1209" y="205" width="19" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1caivzk_di" bpmnElement="SequenceFlow_1caivzk">
+        <di:waypoint x="1163" y="180" />
+        <di:waypoint x="1200" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0l4z8ky_di" bpmnElement="SequenceFlow_0l4z8ky">
+        <di:waypoint x="1017" y="180" />
+        <di:waypoint x="1063" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_02lhx77_di" bpmnElement="usertasktwo_id">
+        <dc:Bounds x="1063" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1jcpan2_di" bpmnElement="SequenceFlow_1jcpan2">
+        <di:waypoint x="436" y="180" />
+        <di:waypoint x="494" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_072rjps_di" bpmnElement="SequenceFlow_072rjps">
+        <di:waypoint x="193" y="180" />
+        <di:waypoint x="247" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_0ktil1n_di" bpmnElement="IntermediateThrowEvent_1u6uio1">
+        <dc:Bounds x="400" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="385" y="205" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0u48s8y_di" bpmnElement="SequenceFlow_0u48s8y">
+        <di:waypoint x="347" y="180" />
+        <di:waypoint x="400" y="180" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
